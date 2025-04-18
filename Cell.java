@@ -8,14 +8,14 @@ public abstract class Cell {
     protected boolean isFlagged = false;
 
     boolean hasBeenTapped() {
-        // TODO
+        return this.tapped;
     }
     void flag() {
-        // TODO
+        this.isFlagged = true;
     }
 
     void unflag() {
-        // TODO
+        this.isFlagged = false;
     }
 
     int numNeighborMines() {

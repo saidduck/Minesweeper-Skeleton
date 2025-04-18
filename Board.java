@@ -10,6 +10,16 @@ public class Board {
     private static int NUM_MINES = 10;
     public static Map<String, Integer> LETTER_TO_NUM_MAP = Map.of(
       // TODO
+        "A", 0,
+        "B", 1,
+        "C", 2,
+        "D", 3,
+        "E", 4,
+        "F", 5,
+        "G", 6,
+        "H", 7,
+        "I", 8,
+        "J", 9
     );
 
     public Board() {
@@ -114,6 +124,7 @@ public class Board {
     private List<Cell> gatherNeighboringEmptyCells(int row, int column) {
         List<Cell> finalResult = new ArrayList<>();
         // TODO
+        HashSet<Cell> seenCells = new HashSet<>();
         Queue<String> q = new LinkedBlockingQueue<>();
         q.add(row + "," + column);
         while (!q.isEmpty()) {
@@ -122,17 +133,21 @@ public class Board {
             column = Integer.parseInt(coordinates[1]);
             Cell popped = cells[row][column];
             // TODO
-            for (int i = row - 1; i <= row + 1; i++) {
-                for (int j = column - 1; j <= column + 1; j++) {
-                    if (isWithinBounds(i, j)) {
-                        if (cells[i][j].numNeighborMines() == 0) {
-                            q.add(i + "," + j);
-                        } else {
-                            finalResult.add(cells[i][j]);
+            if (!seenCells.contains(popped)) {
+                    seenCells.add(popped);
+                for (int i = row - 1; i <= row + 1; i++) {
+                    for (int j = column - 1; j <= column + 1; j++) {
+                        if (isWithinBounds(i, j)) {
+                            if (cells[i][j].numNeighborMines() == 0) {
+                                q.add(i + "," + j);
+                            } else {
+                                finalResult.add(cells[i][j]);
+                            }
                         }
                     }
                 }
             }
+            
         }
         return Stream.concat(finalResult.stream() , new ArrayList<>(seenCells).stream()).collect(Collectors.toList());
     }
